@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Gallery2/app/src/main/res/drawable/item_line.xml" value="0.2085" />
+        <entry key="..\:/Gallery2/app/src/main/res/drawable/line_color.xml" value="0.2085" />
+        <entry key="..\:/Gallery2/app/src/main/res/layout/activity_detil_item.xml" value="0.15520833333333334" />
+        <entry key="..\:/Gallery2/app/src/main/res/layout/activity_detil_viewpager.xml" value="0.2151268115942029" />
+        <entry key="..\:/Gallery2/app/src/main/res/layout/activity_gallery_detil.xml" value="0.15520833333333334" />
+        <entry key="..\:/Gallery2/app/src/main/res/layout/activity_gallery_list_item.xml" value="0.10400000000000001" />
+        <entry key="..\:/Gallery2/app/src/main/res/layout/activity_grid_detil.xml" value="0.15520833333333334" />
+        <entry key="..\:/Gallery2/app/src/main/res/layout/activity_grid_main.xml" value="0.176" />
+        <entry key="..\:/Gallery2/app/src/main/res/layout/activity_list_main.xml" value="0.35643115942028986" />
+        <entry key="..\:/Gallery2/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Gallery2/app/src/main/res/layout/activity_main_thumbnail.xml" value="0.15416666666666667" />
+        <entry key="..\:/Gallery2/app/src/main/res/xml/file_path.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

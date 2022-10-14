@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#373636"
+    tools:context=".Grid_MainActivity">
+
+        <!--메뉴바-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/list_MenuBar"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="#333131">
+            <ImageView
+                android:id="@+id/list_Menu_Back"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/list_MenuBar"
+                app:layout_constraintRight_toRightOf="@+id/list_MenuBar"
+                app:layout_constraintTop_toTopOf="@+id/list_MenuBar"
+                app:srcCompat="?attr/actionModeCloseDrawable"
+                app:tint="@color/white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--리스트 표현공간-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Grid_Recycler_List"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@id/list_MenuBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/imgDel"
+        />
+
+    <Button
+        android:id="@+id/imgDel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:ignore="MissingConstraints"
+        android:text="이미지 삭제"
+        android:textColor="@color/black"
+        android:backgroundTint="#8C8A8A"
+        app:layout_constraintBottom_toTopOf="@+id/Submit_Btn"
+        >
+    </Button>
+
+
+        <Button
+            android:id="@+id/Submit_Btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:ignore="MissingConstraints"
+            android:text="이미지 보기"
+            android:textColor="@color/black"
+            android:backgroundTint="#8C8A8A"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+        </Button>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

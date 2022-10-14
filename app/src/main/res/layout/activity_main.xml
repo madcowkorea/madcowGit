@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#373636"
+    tools:context=".MainActivity">
+
+
+
+
+    <!--그리드형식 갤러리-->
+
+
+        <!--리스트형식 갤러리-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/grid_Layout"
+            android:layout_width="260dp"
+            android:layout_height="260dp"
+            android:layout_marginTop="130dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/line_color"
+            app:layout_constraintBottom_toTopOf="@id/list_Layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+
+            <TextView
+                android:id="@+id/grid_T"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="180dp"
+                android:gravity="center"
+                android:text="Grid Gallery"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#BAE6FA"
+                app:layout_constraintBottom_toBottomOf="@id/grid_Layout"
+                app:layout_constraintLeft_toLeftOf="@id/grid_Layout"
+                app:layout_constraintRight_toRightOf="@id/grid_Layout"
+                app:layout_constraintTop_toTopOf="@id/grid_Layout" />
+
+            <ImageView
+                android:id="@+id/grid_img_1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="55dp"
+                android:background="@color/purple_200"
+                app:layout_constraintLeft_toLeftOf="@id/grid_Layout"
+                app:layout_constraintTop_toBottomOf="@id/grid_T" />
+
+            <ImageView
+                android:id="@+id/grid_img_2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@color/purple_700"
+                app:layout_constraintBottom_toBottomOf="@id/grid_img_1"
+                app:layout_constraintLeft_toRightOf="@id/grid_img_1"
+                app:layout_constraintRight_toRightOf="@id/grid_img_1" />
+
+            <ImageView
+                android:id="@+id/grid_img_3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/teal_700"
+                app:layout_constraintBottom_toBottomOf="@id/grid_Layout"
+                app:layout_constraintRight_toRightOf="@id/grid_img_1"
+                app:layout_constraintTop_toTopOf="@id/grid_img_1" />
+
+            <ImageView
+                android:id="@+id/grid_img_4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="15dp"
+                android:background="@color/teal_200"
+                app:layout_constraintBottom_toBottomOf="@id/grid_Layout"
+                app:layout_constraintLeft_toLeftOf="@id/grid_img_2"
+                app:layout_constraintTop_toTopOf="@+id/grid_img_2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_Layout"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        android:layout_marginBottom="140dp"
+        app:layout_constraintTop_toBottomOf="@+id/grid_Layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/line_color"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/list_T"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="List Gallery"
+            android:textColor="#BAE6FA"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="200dp"
+            app:layout_constraintTop_toTopOf="@id/list_Layout"
+            app:layout_constraintLeft_toLeftOf="@id/list_Layout"
+            app:layout_constraintRight_toRightOf="@id/list_Layout"
+            app:layout_constraintBottom_toBottomOf="@id/list_Layout"
+            />
+
+        <ImageView
+            android:id="@+id/list_img_1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@color/purple_200"
+            android:layout_marginLeft="5dp"
+            app:layout_constraintTop_toBottomOf="@id/list_T"
+            app:layout_constraintLeft_toLeftOf="@id/list_Layout"
+            app:layout_constraintBottom_toBottomOf="@id/list_Layout"
+            />
+
+        <ImageView
+            android:id="@+id/list_img_2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@color/purple_700"
+            app:layout_constraintTop_toBottomOf="@id/list_T"
+            app:layout_constraintBottom_toBottomOf="@id/list_Layout"
+            app:layout_constraintLeft_toRightOf="@id/list_img_1"
+            app:layout_constraintRight_toRightOf="@id/list_img_1"
+            />
+        <ImageView
+            android:id="@+id/list_img_3"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@color/teal_700"
+            app:layout_constraintTop_toBottomOf="@id/list_T"
+            app:layout_constraintBottom_toBottomOf="@id/list_Layout"
+            app:layout_constraintLeft_toRightOf="@id/list_img_2"
+            app:layout_constraintRight_toRightOf="@id/list_img_2"
+            />
+
+        <ImageView
+            android:id="@+id/list_img_4"
+            android:layout_width="65dp"
+            android:layout_height="120dp"
+            android:background="@color/teal_200"
+            android:layout_marginStart="60dp"
+            app:layout_constraintBottom_toBottomOf="@id/list_Layout"
+            app:layout_constraintHorizontal_bias="0.466"
+            app:layout_constraintLeft_toLeftOf="@id/list_img_3"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/list_T"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
