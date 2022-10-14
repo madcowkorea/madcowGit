@@ -9,6 +9,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,6 +23,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,11 +38,21 @@ public class List_MainActivity extends AppCompatActivity implements CallbackList
     ImageView backBtn; //뒤로가기 버튼
     RecyclerView Rv;
     Button submit;
-    Button delbtn;
-    private IntentSender intentSender;
+    Button delbtn; // 이미지 삭제버튼
+    Map<String, String> LayoutMap;
+    ArrayList<String> imgDelList = new ArrayList<>();
     ArrayList<String> List;
     ArrayList<String> IdList;
-    ArrayList<String> imgDelList = new ArrayList<>();
+    private IntentSender intentSender;
+    int columnIndex ;
+    int columnId ;
+    int columnDisplayname ;
+    int lastIndex;
+    private String path = "";
+    Cursor cursor;
+    Uri uri;
+    CustomAdapter adapter;
+    String[] projection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,47 +63,54 @@ public class List_MainActivity extends AppCompatActivity implements CallbackList
         backGridButton back = new backGridButton();
         backBtn.setOnClickListener(back);
 
-        Map<String,String> LayoutMap = new HashMap<String ,String>();
-        LayoutMap.put("List","List");
+        LayoutMap = new HashMap<String, String>();
+        LayoutMap.put("List","ListActivity");
         //uri를 담아줄 객체선언
         //리스트 객체선언
         IdList = new ArrayList<>();
         List = new ArrayList<>();
-        /*Uri:식별자
-            미디어의 파일을 읽어서 uri 변수에 넣는다
-            MediaStroe로 파일을 읽으려면 READ 권한이 필요 Manifest에 권한 추가 필요*/
-        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        //문자열 배열에 이미지 파일의 데이터,이미지 파일의 이름을 담아준다
-        String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.Images.Media._ID};
-        /*  getContentResolver().query (쿼리코드)
-            Cursor객체를 통해 찾은 데이터를 확인할수있다.
-            select 역활과 같다. */
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, MediaStore.MediaColumns.DATE_ADDED + " desc");
-        //데이터를 순회하여 결과를 출력하는 코드
-        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        int columnId = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID);
-        int columnDisplayname = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
-        int lastIndex;
 
-        while (cursor.moveToNext()) {
+        new Thread() {
+            public void run() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    uri = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+                } else {
+                    uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                }
+                projection = new String[]{MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.Images.Media._ID};
 
-            String absolutePathOfImage = cursor.getString(columnIndex);
-            String ImgId = cursor.getString(columnId);
-            String nameOfFile = cursor.getString(columnDisplayname);
-            lastIndex = absolutePathOfImage.lastIndexOf(nameOfFile);
-            lastIndex = lastIndex >= 0 ? lastIndex : nameOfFile.length() - 1;
-            //순회하여 가져온 uri를 UriList에 담아준다.
-            if (!TextUtils.isEmpty(absolutePathOfImage)) {
-                List.add(absolutePathOfImage);
-                IdList.add(ImgId);
+                cursor = getContentResolver().query(
+                        uri,
+                        projection,
+                        null,
+                        null,
+                        MediaStore.MediaColumns.DATE_ADDED + " desc");
+
+                columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                columnId = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID);
+                columnDisplayname = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
+
+                while (cursor.moveToNext()) {
+                    String absolutePathOfImage = cursor.getString(columnIndex);
+                    String ImgId = cursor.getString(columnId);
+                    String nameOfFile = cursor.getString(columnDisplayname);
+                    lastIndex = absolutePathOfImage.lastIndexOf(nameOfFile);
+                    lastIndex = lastIndex >= 0 ? lastIndex : nameOfFile.length() - 1;
+                    //순회하여 가져온 uri를 UriList에 담아준다.
+                    if (!TextUtils.isEmpty(ImgId)) {
+                        List.add(absolutePathOfImage);
+                        IdList.add(ImgId);
+                    }
+                }
+                handler.sendEmptyMessage(0);
             }
-        }
+        }.start();
+
         //Data어댑터 객체 선언후 어뎁터에 url 리스트를 던져준다.
         delbtn = findViewById(R.id.imgDel);
         submit = findViewById(R.id.Submit_Btn);
         Rv = findViewById(R.id.Recycler_List);
-        CustomAdapter adapter = new CustomAdapter(IdList, (Map<String, String>) LayoutMap, submit, List);
-        Rv.setAdapter(adapter);
+
         //레이아웃 매니저 리사이클 레이아웃을 리스트 방식으로 표현해준다.
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -98,8 +119,19 @@ public class List_MainActivity extends AppCompatActivity implements CallbackList
         deleteClickEvent delClick = new deleteClickEvent();
         delbtn.setOnClickListener(delClick);
         //콜백
-        adapter.setCallbackListener(this);
     }
+
+    private Handler handler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            //커스텀 어댑터 객체 선언후 어뎁터에 url 리스트를 던져준다.
+            adapter = new CustomAdapter(IdList, (Map<String, String>) LayoutMap, submit, List);
+            Rv.setAdapter(adapter);
+            //콜백
+            adapter.setCallbackListener(List_MainActivity.this);
+        }
+    };
+
     @Override
     public void callBack(int pos, String Check){
         if(Check.equals("CheckOn")) {
@@ -122,6 +154,7 @@ public class List_MainActivity extends AppCompatActivity implements CallbackList
             }
         }
     }
+
     //뒤로가기 버튼 클릭시 메인으로 이동
     class backGridButton implements View.OnClickListener {
         @Override
@@ -130,6 +163,7 @@ public class List_MainActivity extends AppCompatActivity implements CallbackList
             startActivity(backbtn);
         }
     }
+
     //이미지 삭제 메서드
     private void deleteImg() throws IntentSender.SendIntentException {
 
@@ -138,8 +172,6 @@ public class List_MainActivity extends AppCompatActivity implements CallbackList
             String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME,MediaStore.MediaColumns._ID};
             Cursor cursor = getContentResolver().query(uri, projection, null, null, MediaStore.MediaColumns.DATE_ADDED + " desc");
             Uri deleteUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, 0);
-
-            System.out.println("@@@@@@@@@ cursor = " + cursor);
 
             while (cursor.moveToNext()) {
                 long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));

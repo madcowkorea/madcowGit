@@ -14,7 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,6 +55,7 @@ public class Grid_MainActivity extends AppCompatActivity implements CallbackList
     Cursor cursor;
     Uri uri;
     CustomAdapter adapter;
+    String[] projection;
 
     @SuppressLint("NewApi")
     @Override
@@ -92,8 +93,7 @@ public class Grid_MainActivity extends AppCompatActivity implements CallbackList
                 } else {
                     uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 }
-                //projection = new String[]{MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.Images.Media._ID};
-                String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns._ID};
+                projection = new String[]{MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.Images.Media._ID};
 
                 cursor = getContentResolver().query(
                         uri,
@@ -102,11 +102,7 @@ public class Grid_MainActivity extends AppCompatActivity implements CallbackList
                         null,
                         MediaStore.MediaColumns.DATE_ADDED + " desc");
 
-                Log.e("COUNT " , String.valueOf(cursor.getCount()));
-
-
-
-             /*   columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
                 columnId = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID);
                 columnDisplayname = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
 
@@ -121,7 +117,7 @@ public class Grid_MainActivity extends AppCompatActivity implements CallbackList
                         List.add(absolutePathOfImage);
                         IdList.add(ImgId);
                     }
-                }*/
+                }
                 handler.sendEmptyMessage(0);
            }
         }.start();
