@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -107,7 +106,7 @@ public class Grid_MainActivity extends AppCompatActivity implements CallbackList
 
 
 
-                columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+             /*   columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
                 columnId = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID);
                 columnDisplayname = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
 
@@ -122,7 +121,7 @@ public class Grid_MainActivity extends AppCompatActivity implements CallbackList
                         List.add(absolutePathOfImage);
                         IdList.add(ImgId);
                     }
-                }
+                }*/
                 handler.sendEmptyMessage(0);
            }
         }.start();
