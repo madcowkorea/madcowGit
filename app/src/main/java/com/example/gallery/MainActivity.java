@@ -1,34 +1,27 @@
 package com.example.gallery;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.Manifest;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     ConstraintLayout gridLayout;
     ConstraintLayout listLayout;
+
+     final String[] per = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+
+    //권한창을 띄우는 요소
+    ActivityResultLauncher<String[]> location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         listLayoutClick listClick = new listLayoutClick();
         listLayout.setOnClickListener(listClick);
         //---------------------------------------------//
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //거부되어 있는 권한들을 사용자에게 확인한다
+            requestPermissions(per,0);
+        }
     }
 
     class gridLayoutClick implements View.OnClickListener{
